@@ -1,12 +1,32 @@
 let pageBody = document.querySelector(".boardContainer")
+let testSquare = document.getElementsByClassName("square")
+
 let boardStateObject = {}
 
 
 function main(){
-
+    
     createBoard()
-
+    
     createACircle()
+    // selectSquare() 
+    pageBody.addEventListener("click", selectSquare)
+    // window.addEventListener("mousemove", event =>{
+    //     console.log(event.clientY)
+    // })
+
+    //When the event in anonymouse funtion and the event inside the function are not the same, event will be crossed over
+    //that is because the event is deprecated, https://stackoverflow.com/questions/72069923/my-variable-is-crossed-out-in-visual-code
+    //use this in the video
+
+
+    //if I use coordinates to select everytime someone resizes window I will have to recalculate coordinates of my squares 
+    /*If I use the event listener on every square, I will have to add a crap ton of eventlistener otherwise I wont be able to target specific square if
+    I hit the border of the board.
+    */
+    window.addEventListener("mousedown", event =>{
+        console.log(event.clientX)
+    })
 }
 
 
@@ -57,6 +77,14 @@ function createACircle(){
     
     pageBody.appendChild(token)
 }
+
+function selectSquare(e){
+    // console.log(testSquare);
+
+     
+    console.log("I selected stuff", e.target)
+}
+
 
 
 window.onload = main()
