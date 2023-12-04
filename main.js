@@ -243,9 +243,15 @@ function checkForWin(columnNumber, rowNumber){
 
     let tokenCount = 0    
 
-    checkHorizontalWinUp(columnNumber, rowNumber+1)
+    // checkHorizontalWinUp(columnNumber, rowNumber+1)
     tokenCount = 0
     // checkSideWinRight(columnNumber+1, rowNumber+1)
+    tokenCount = 0
+    // checkSideWinLeft(columnNumber-1, rowNumber+1)
+    tokenCount = 0
+    checkWinLeftRightL(columnNumber+1, rowNumber)
+    tokenCount = 0
+    
     function checkTokenCont(){
         if(tokenCount >= 4){
             console.log("YOU WIN");
@@ -326,6 +332,76 @@ function checkForWin(columnNumber, rowNumber){
             }
         }
     }
+    
+    function checkSideWinLeft(columnNumber2, rowNumber2){
+        if(rowNumber2 < 6 && columnNumber2 < 7){
+            let token = boardStateObject[`column${columnNumber2}`][rowNumber2]
+            if (token === playerTurn){
+                tokenCount += 1
+                if(checkTokenCont() === false){
+                    checkSideWinLeft(columnNumber2-1, rowNumber2+1)
+                }
+            }else{
+                tokenCount += 1
+                if(checkTokenCont() === false){
+                    checkSideWinLeftDown(columnNumber+1, rowNumber-1)
+                }
+            }
+        }else{
+            tokenCount += 1
+            if(checkTokenCont() === false){
+                checkSideWinLeftDown(columnNumber+1, rowNumber-1)
+            }
+        }
+        
+    }
+    function checkSideWinLeftDown(columnNumber2, rowNumber2){
+        if (columnNumber2 >= 0 && rowNumber2 >= 0){
+            let token = boardStateObject[`column${columnNumber2}`][rowNumber2]
+            if(token === playerTurn){
+                tokenCount += 1
+                if(checkTokenCont() === false){
+                    checkSideWinLeftDown(columnNumber2+1, rowNumber2-1)
+                }
+            }
+        }
+    }
+    function checkWinLeftRightL(columnNumber2, rowNumber2){
+        if(rowNumber2 < 6 && columnNumber2 < 7){
+            let token = boardStateObject[`column${columnNumber2}`][rowNumber2]
+            if (token === playerTurn){
+                tokenCount += 1
+                if(checkTokenCont() === false){
+                    checkWinLeftRightL(columnNumber2+1, rowNumber2)
+                }
+            }else{
+                tokenCount += 1
+                if(checkTokenCont() === false){
+                    checkWinLeftRightR(columnNumber-1, rowNumber)
+                }
+            }
+        }else{
+            tokenCount += 1
+            if(checkTokenCont() === false){
+                checkWinLeftRightR(columnNumber-1, rowNumber)
+            }
+        }
+        
+    }
+    function checkWinLeftRightR(columnNumber2, rowNumber2){
+        if (columnNumber2 >= 0 && rowNumber2 >= 0){
+            let token = boardStateObject[`column${columnNumber2}`][rowNumber2]
+            if(token === playerTurn){
+                tokenCount += 1
+                if(checkTokenCont() === false){
+                    checkWinLeftRightR(columnNumber2-1, rowNumber2)
+                }
+            }
+        }
+    }
+
+
+    
 }
 
 window.onload = main()
