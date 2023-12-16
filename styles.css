@@ -4,12 +4,34 @@
     z-index: 2;
 }
 
+
+
 .boardContainer{
     
     display: inline-block;
     background-color: blue;
 }
 
+.playerArea{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    padding-top: 100px;
+
+}
+
+.player1{
+    padding-right: 50px;
+    font-style: italic;
+    color: red;
+}
+
+.player2{
+    padding-left: 50px;
+    font-style: italic;
+    color: green;
+}
 
 .boardContainer div{
     display: flex;
@@ -54,3 +76,16 @@
     /* transition: .5s; */
 }
 
+.scoreBoard{
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+
+.scoreBoard div{
+    font-size: 80px;
+    font-weight: bolder;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}

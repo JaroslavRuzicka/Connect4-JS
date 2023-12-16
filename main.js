@@ -49,6 +49,7 @@ function main(){
     calculateCoordinatesOfRows()
     window.addEventListener("resize", event => {
         calculateCoordinatesOfRows()
+        moveCirlcesToPosition()
         // console.log(columnCoordinates);
     })
 
@@ -97,7 +98,7 @@ function createACircle(columnNumber){
     let circle = document.querySelector(`.line5 .square${columnNumber}`).getBoundingClientRect()
 
     let token = document.createElement ("div")
-    token.classList.add("token")
+    token.classList.add(`token`) 
 
     let tokenHeight = 100
     let topCoordinate = circle.top + circle.height/2 - tokenHeight/2
@@ -130,7 +131,7 @@ function calculateCoordinatesOfRows(){
 
         columnCoordinates[columnName] = {
             leftCoordinate: xLeftCoordinate,
-            rightCoordinate: xRightCoordinate
+            rightCoordinate: xRightCoordinate,
         }
     }
 
@@ -144,7 +145,7 @@ function findTheHoveredColumn(xMouseCoordinate) {
         if (i === 0){
          if(xMouseCoordinate >= columnCoordinates[coordinateKeys[i]].leftCoordinate 
             && xMouseCoordinate <= columnCoordinates[coordinateKeys[i]].rightCoordinate){
-            console.log(`Match${i}`);
+            // console.log(`Match${i}`);
             return i   
             
             }   
@@ -152,14 +153,14 @@ function findTheHoveredColumn(xMouseCoordinate) {
 
         if(xMouseCoordinate > columnCoordinates[coordinateKeys[i]].leftCoordinate 
             && xMouseCoordinate <= columnCoordinates[coordinateKeys[i]].rightCoordinate){
-            console.log(`Match${i}`);
+            // console.log(`Match${i}`);
             return i   
             
         }
 
     }
     
-    console.log("No match")
+    // console.log("No match")
     return null
 }
 
@@ -212,20 +213,32 @@ function checkIfColumnsAreFull(columnNumber){
 
 function moveTokenToCorrectRow(columnNumber, rowNumber){
     let tokenList = document.querySelectorAll(".token")
+
+    
+
     let token = tokenList[tokenList.length -1]
 
     let squareCoodinates = document.querySelector(`.line${rowNumber} .square${columnNumber}`).getBoundingClientRect().top + 10
 
+   
     let topOfBoardBox = boardBox.getBoundingClientRect().top
 
     function moveCircle (topCoordinates){
-        if (topCoordinates === Math.trunc(squareCoodinates/10)*10){
-            token.style.top =`${squareCoodinates}px` 
+        // console.log(topCoordinates)
+        // console.log(squareCoodinates)
+        // if (topCoordinates === Math.trunc(squareCoodinates/10)*10){
+        if ((squareCoodinates - 5) < topCoordinates  && topCoordinates < (squareCoodinates + 5)){
+            token.style.top =`${squareCoodinates}px`
+             
+            // console.log(topCoordinates)
         }else{
+            // console.log("Math" + Math.trunc(squareCoodinates/10)*10);
+            // console.log(squareCoodinates);
+            // console.log(topCoordinates)
             token.style.top =`${topCoordinates}px` 
             setTimeout(() =>{
-                moveCircle(topCoordinates + 5)
-            }, "5")
+                moveCircle(topCoordinates + 10)
+            }, "1")
 
         }
   
@@ -237,6 +250,32 @@ function moveTokenToCorrectRow(columnNumber, rowNumber){
 
     // token.style.top = `${squareCoodinates + 10}px`
     // console.log(Math.trunc(squareCoodinates/10)*10, token);
+}
+
+
+/**************FINISH THIS FUNCTIION RIGHT NOW ITS BUGGY
+HAVE TO ACTULLY GET THE SAME FORMULA AS IS DOWN THERE.*/
+function moveCirlcesToPosition(){
+    let allTokens = document.querySelectorAll(".token")
+
+    allTokens.forEach(element => {
+       let elementID = element.className.split(" ")[1]
+       
+       let columnID = elementID[0]
+       let rowID = elementID[1]
+
+       //specifies the number of pixels to move the token to make sure it's centered in the parent element
+       let halfOfToken = 7.5
+       
+    //    console.log(columnID);
+       element.style.left = `${columnCoordinates[`square${columnID}`][`leftCoordinate`] + halfOfToken}px`
+
+
+       let rowTopCoordinate = document.querySelector(`.line${rowID}`).getBoundingClientRect().top
+       element.style.top = `${rowTopCoordinate + halfOfToken}px`
+
+    console.log(rowTopCoordinate);
+    });
 }
 
 function checkForWin(columnNumber, rowNumber){
@@ -264,7 +303,7 @@ function checkForWin(columnNumber, rowNumber){
     function checkHorizontalWinUp(columnNumber2, rowNumber2){
         if (rowNumber2 < 6){
             let token = boardStateObject[`column${columnNumber2}`][rowNumber2]
-            console.log(token, `tokencount ${tokenCount}`);
+            // console.log(token, `tokencount ${tokenCount}`);
             if (token === playerTurn ){
                 tokenCount += 1
                 if(checkTokenCont() === false){
@@ -288,10 +327,10 @@ function checkForWin(columnNumber, rowNumber){
     }
     function checkHorizontalWinDown(columnNumber2, rowNumber2){
         let token = boardStateObject[`column${columnNumber2}`][rowNumber2]
-        console.log(token, `tokencount ${tokenCount}`, `player number ${playerTurn}`);
-        console.log(columnNumber2, rowNumber2);
+        // console.log(token, `tokencount ${tokenCount}`, `player number ${playerTurn}`);
+        // console.log(columnNumber2, rowNumber2);
         if (token === playerTurn ){
-            console.log("yes");
+            // console.log("yes");
             tokenCount += 1
             checkTokenCont()
             checkHorizontalWinDown(columnNumber2, rowNumber2-1)
